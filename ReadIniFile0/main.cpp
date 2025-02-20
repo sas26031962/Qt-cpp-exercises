@@ -51,5 +51,8 @@ int main(int argc, char *argv[]) {
     qDebug() << "Language: " << language;
     qDebug() << "Show splash screen: " << showSplashScreen;
 
+   settings.sync();//Явная запись файла на диск
+   qDebug() << "Store file on the disk";// << x;
+
     return a.exec();
 }
