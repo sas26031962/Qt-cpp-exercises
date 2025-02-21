@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     // 7. Явная запись изменений на диск (необязательно, но рекомендуется).
     settings.sync();
 
-    qDebug() << "Настройки сохранены в: " << iniFilePath;
+    qDebug() << "Set settings in file: " << iniFilePath;
 
     return a.exec();
 }
