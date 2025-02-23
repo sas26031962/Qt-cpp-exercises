@@ -3,18 +3,43 @@
 #include <QFileInfo>
 #include <QDebug> // Для вывода в консоль
 #include <QDirIterator>
+#include <QList>
+
+class cRecord
+{
+
+public:
+    //Атрибуты
+    static QList<cRecord*> * RecordList;
+    QString qsName = "NoName";
+    QString qsPath = "";
+    qint64 iSize = 0;
+    bool IsDir = false;
+
+    cRecord();
+
+};
+
+cRecord::cRecord()
+{
+    //...
+}
+
+QList<cRecord*> * cRecord::RecordList = new QList<cRecord*>();
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
-    QString directoryPath = "/home/andy"; // Путь к целевому каталогу
+    QString directoryPath = "/home/andy/Рабочий стол"; // Путь к целевому каталогу
    // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
 
     QDir directory(directoryPath);//объект QDir для работы с каталогом
 
     // Проверка на существование каталога
-    if (!directory.exists()) {
+    if (!directory.exists())
+    {
         qDebug() << "Directory not found: " << directoryPath;
+        delete cRecord::RecordList;
         return 1;
     }
 
@@ -44,6 +69,8 @@ int main(int argc, char *argv[]) {
         qDebug() << "IsDir: " << isDir;
         qDebug() << "--------------------";
     }
+
+    delete cRecord::RecordList;
 
     return a.exec();
 }
