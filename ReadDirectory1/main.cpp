@@ -7,52 +7,43 @@
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
-    // 1. Укажите путь к каталогу, который нужно прочитать.
-    QString directoryPath = "/home/andy"; // Замените на реальный путь
+    QString directoryPath = "/home/andy"; // Путь к целевому каталогу
    // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
 
-    // 2. Создайте объект QDir для работы с каталогом.
-    QDir directory(directoryPath);
+    QDir directory(directoryPath);//объект QDir для работы с каталогом
 
-    // 3. Проверьте, существует ли каталог.
+    // Проверка на существование каталога
     if (!directory.exists()) {
-        qDebug() << "Каталог не существует: " << directoryPath;
+        qDebug() << "Directory not found: " << directoryPath;
         return 1;
     }
 
-    // 4. Установите фильтры для выбора нужных файлов и каталогов.
+    // Фильтры для выбора нужных файлов и каталогов.
     QDir::Filters filters = QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot;
     directory.setFilter(filters);
 
-    // 5. Установите порядок сортировки.
+    // Порядок сортировки каталога
     directory.setSorting(QDir::Name);
 
-    // 6. Получите список файлов и каталогов.
+    // Список файлов и каталогов.
     QFileInfoList fileList = directory.entryInfoList();
 
-    // 7. Переберите список и выведите информацию о каждом файле и каталоге.
-    qDebug() << "Содержимое каталога: " << directoryPath;
+    // Анализ списока и вывод информации о каждом файле и каталоге.
+    qDebug() << "Directrory content: " << directoryPath;
 
-    for (const QFileInfo &fileInfo : fileList) {
+    for (const QFileInfo &fileInfo : fileList)
+    {
         QString name = fileInfo.fileName();
         QString path = fileInfo.filePath();
         qint64 size = fileInfo.size();
         bool isDir = fileInfo.isDir();
 
-        qDebug() << "Имя: " << name;
-        qDebug() << "Путь: " << path;
-        qDebug() << "Размер: " << size << " байт";
-        qDebug() << "Это каталог: " << isDir;
+        qDebug() << "Name: " << name;
+        qDebug() << "Path: " << path;
+        qDebug() << "Sise: " << size << " bytes";
+        qDebug() << "IsDir: " << isDir;
         qDebug() << "--------------------";
     }
-
-    //Альтернативный способ итерации по файлам и каталогам
-   /* QDirIterator it(directoryPath, filters, QDirIterator::Subdirectories);
-     while (it.hasNext()) {
-        QString filePath = it.next();
-         qDebug() << "File path: " << filePath;
-    }*/
-
 
     return a.exec();
 }
