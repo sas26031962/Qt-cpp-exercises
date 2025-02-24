@@ -27,11 +27,21 @@ cRecord::cRecord()
 
 QList<cRecord*> * cRecord::RecordList = new QList<cRecord*>();
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QCoreApplication a(argc, argv);
 
-    QString directoryPath = "/home/andy/Рабочий стол"; // Путь к целевому каталогу
-   // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
+    QString directoryPath = QCoreApplication::applicationDirPath();// текущая папка с исполняемым файлом
+#ifdef Q__OS_WIN
+    qDebug() << "OS Windows detected";
+    directoryPath = "C:/WORK/Pictures"; // Путь к целевому каталогу Windows
+#endif
+
+#ifdef Q__OS_LINUX
+    qDebug() << "OS Linux detected";
+    directoryPath = "/home/andy/Рабочий стол"; // Путь к целевому каталогу Linux
+#endif
+
 
     QDir directory(directoryPath);//объект QDir для работы с каталогом
 
@@ -41,6 +51,10 @@ int main(int argc, char *argv[]) {
         qDebug() << "Directory not found: " << directoryPath;
         delete cRecord::RecordList;
         return 1;
+    }
+    else
+    {
+        qDebug() << "Working directory:" << directoryPath;
     }
 
     // Фильтры для выбора нужных файлов и каталогов.
@@ -54,7 +68,7 @@ int main(int argc, char *argv[]) {
     QFileInfoList fileList = directory.entryInfoList();
 
     // Анализ списока и вывод информации о каждом файле и каталоге.
-    qDebug() << "Directrory content: " << directoryPath;
+    //qDebug() << "Directrory content: " << directoryPath;
 
     for (const QFileInfo &fileInfo : fileList)
     {
