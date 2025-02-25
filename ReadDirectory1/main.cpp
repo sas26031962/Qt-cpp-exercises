@@ -5,43 +5,37 @@
 #include <QDirIterator>
 #include <QList>
 
-class cRecord
-{
+#include "crecord.h"
 
-public:
-    //Атрибуты
-    static QList<cRecord*> * RecordList;
-    QString qsName = "NoName";
-    QString qsPath = "";
-    qint64 iSize = 0;
-    bool IsDir = false;
+//
+// Глобальные переменные
+//
 
-    cRecord();
+QString DetectedOs = "Default OS name";
 
-};
+//QString directoryPath = QCoreApplication::applicationDirPath();// текущая папка с исполняемым файлом
+QString directoryPath = "C:/WORK/Pictures"; // Путь к целевому каталогу на VirtualBox Windows
 
-cRecord::cRecord()
-{
-    //...
-}
-
-QList<cRecord*> * cRecord::RecordList = new QList<cRecord*>();
-
+//
+// Главная функция программы
+//
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QString directoryPath = QCoreApplication::applicationDirPath();// текущая папка с исполняемым файлом
 #ifdef Q__OS_WIN
-    qDebug() << "OS Windows detected";
+    //qDebug() << "OS Windows detected";
     directoryPath = "C:/WORK/Pictures"; // Путь к целевому каталогу Windows
+    DetectedOs = "OS Windows";
 #endif
 
 #ifdef Q__OS_LINUX
-    qDebug() << "OS Linux detected";
+    //qDebug() << "OS Linux detected";
     directoryPath = "/home/andy/Рабочий стол"; // Путь к целевому каталогу Linux
+    DetectedOs = "OS Linux";
 #endif
 
+    qDebug() << "Detected OS:" << DetectedOs;
 
     QDir directory(directoryPath);//объект QDir для работы с каталогом
 
