@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <memory>
+#include <QDebug>
 
 class cRecord : public QObject
 {
@@ -17,6 +18,9 @@ public:
 
     //Конструктор
     explicit cRecord(QObject *parent = 0);
+
+    //Методы
+    static void showList();
 
 signals:
 
