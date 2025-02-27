@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/Sound">
+        <file>sound/MotorHydraulics_YG18_AND_YG17_ON.wav</file>
+        <file>sound/MotorHydro_ARS.wav</file>
+    </qresource>
+</RCC>
