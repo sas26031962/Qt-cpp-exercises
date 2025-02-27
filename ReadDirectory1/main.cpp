@@ -4,55 +4,79 @@
 #include <QDebug> // Для вывода в консоль
 #include <QDirIterator>
 
-int main(int argc, char *argv[]) {
+#include "crecord.h"
+
+int main(int argc, char *argv[])
+{
     QCoreApplication a(argc, argv);
 
-    // 1. Укажите путь к каталогу, который нужно прочитать.
-    QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Замените на реальный путь
+    // Путь к каталогу, который нужно прочитать
+    //QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Путь для Linux
+    QString directoryPath = "C:/WORK/Pictures"; // Путь для Windows
+
    // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
 
-    // 2. Создайте объект QDir для работы с каталогом.
+    //Объект QDir для работы с каталогом
     QDir directory(directoryPath);
 
-    // 3. Проверьте, существует ли каталог.
     if (!directory.exists()) {
-        qDebug() << "Каталог не существует: " << directoryPath;
+        qDebug() << "Directory not found: " << directoryPath;
         return 1;
     }
 
-    // 4. Установите фильтры для выбора нужных файлов и каталогов.
+    // Фильтры для выбора нужных файлов и каталогов
     QDir::Filters filters = QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot;
     directory.setFilter(filters);
 
-    // 5. Установите порядок сортировки.
+    //Порядок сортировки
     directory.setSorting(QDir::Name);
 
-    // 6. Получите список файлов и каталогов.
+    //Список файлов и каталогов.
     QFileInfoList fileList = directory.entryInfoList();
 
-    // 7. Переберите список и выведите информацию о каждом файле и каталоге.
-    qDebug() << "Содержимое каталога: " << directoryPath;
 
-    for (const QFileInfo &fileInfo : fileList) {
-        QString name = fileInfo.fileName();
-        QString path = fileInfo.filePath();
-        qint64 size = fileInfo.size();
-        bool isDir = fileInfo.isDir();
+    // Чтение информации о каждом файле и каталоге
+    qDebug() << "Target directory: " << directoryPath;
 
-        qDebug() << "Имя: " << name;
-        qDebug() << "Путь: " << path;
-        qDebug() << "Размер: " << size << " байт";
-        qDebug() << "Это каталог: " << isDir;
-        qDebug() << "--------------------";
+    for (const QFileInfo &fileInfo : fileList)
+    {
+        cRecord * Record = new cRecord();
+
+        Record->qsName = fileInfo.fileName();
+        Record->qsPath  = fileInfo.filePath();
+        Record->iSize = fileInfo.size();
+        Record->IsDir = fileInfo.isDir();
+
+        cRecord::RecordList->append(Record);
+
+        delete Record;
+
+//        qDebug() << "Имя: " << name;
+//        qDebug() << "Путь: " << path;
+//        qDebug() << "Размер: " << size << " байт";
+//        qDebug() << "Это каталог: " << isDir;
+//        qDebug() << "--------------------";
     }
 
-    //Альтернативный способ итерации по файлам и каталогам
-   /* QDirIterator it(directoryPath, filters, QDirIterator::Subdirectories);
-     while (it.hasNext()) {
-        QString filePath = it.next();
-         qDebug() << "File path: " << filePath;
-    }*/
+    qDebug() << "RecordList records number: " << cRecord::RecordList->length();
 
+//    cRecord::showList();
+    for(int i = 0; i < cRecord::RecordList->count(); i++)
+    {
+        if(sizeof(cRecord::RecordList->at(i)) > 0)
+        {
+//            qDebug() << "Name: " << cRecord::RecordList->at(i)->qsName;
+//            qDebug() << "Path: " << cRecord::RecordList->at(i)->qsPath;
+//            qDebug() << "Sise: " << cRecord::RecordList->at(i)->iSize;
+//            qDebug() << "IsDir: " << cRecord::RecordList->at(i)->IsDir;
+            qDebug() << "--------------------";
+        }
+        else
+        {
+            qDebug() << "Empty element:" << i;
+        }
+    }//End of for(int i = 0; i < cRecord::RecordList->count(); i++)
 
     return a.exec();
-}
+
+}//End of int main(int argc, char *argv[])
