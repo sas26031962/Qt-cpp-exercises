@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     // Путь к каталогу, который нужно прочитать
-    //QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Путь для Linux
-    QString directoryPath = "C:/WORK/Pictures"; // Путь для Windows
+    QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Путь для Linux
+    //QString directoryPath = "C:/WORK/Pictures"; // Путь для Windows
 
    // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
 
@@ -49,17 +49,18 @@ int main(int argc, char *argv[])
 
         cRecord::RecordList->append(Record);
 
+        qDebug() << "Name: " << Record->qsName;
+        qDebug() << "Path: " << Record->qsPath;
+        qDebug() << "Size: " << Record->iSize << " bytes";
+        qDebug() << "IsDir: " << Record->IsDir;
+        qDebug() << "--------------------";
+
         delete Record;
 
-//        qDebug() << "Имя: " << name;
-//        qDebug() << "Путь: " << path;
-//        qDebug() << "Размер: " << size << " байт";
-//        qDebug() << "Это каталог: " << isDir;
-//        qDebug() << "--------------------";
     }
 
     qDebug() << "RecordList records number: " << cRecord::RecordList->length();
-
+/*
 //    cRecord::showList();
     for(int i = 0; i < cRecord::RecordList->count(); i++)
     {
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
             qDebug() << "Empty element:" << i;
         }
     }//End of for(int i = 0; i < cRecord::RecordList->count(); i++)
-
+*/
     return a.exec();
 
 }//End of int main(int argc, char *argv[])
