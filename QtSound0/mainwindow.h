@@ -24,6 +24,7 @@ public slots:
 
 private slots:
     void execPlay0();
+    void execPlay1();
 signals:
 
 };

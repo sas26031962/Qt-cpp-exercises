@@ -28,6 +28,7 @@ class Ui_MainWindow
 public:
     QAction *actionPlay0;
     QAction *actionExit;
+    QAction *actionPlay1;
     QWidget *centralWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -44,6 +45,8 @@ public:
         actionPlay0->setObjectName(QStringLiteral("actionPlay0"));
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
+        actionPlay1 = new QAction(MainWindow);
+        actionPlay1->setObjectName(QStringLiteral("actionPlay1"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         MainWindow->setCentralWidget(centralWidget);
@@ -66,6 +69,7 @@ public:
         menuBar->addAction(menuActions->menuAction());
         menuFile->addAction(actionExit);
         menuActions->addAction(actionPlay0);
+        menuActions->addAction(actionPlay1);
 
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(triggered()), MainWindow, SLOT(close()));
@@ -78,6 +82,7 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionPlay0->setText(QApplication::translate("MainWindow", "Play0", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
+        actionPlay1->setText(QApplication::translate("MainWindow", "Play1", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuActions->setTitle(QApplication::translate("MainWindow", "Actions", 0));
     } // retranslateUi
