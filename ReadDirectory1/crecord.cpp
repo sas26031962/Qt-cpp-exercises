@@ -16,18 +16,11 @@ void cRecord::showList()
     {
         for(int i = 0; i < cRecord::RecordList->count(); i++)
         {
-            if(cRecord::RecordList->at(i) != nullptr)
-            {
-                qDebug() << "Name: " << cRecord::RecordList->at(i)->qsName;
-                qDebug() << "Path: " << cRecord::RecordList->at(i)->qsPath;
-                qDebug() << "Sise: " << cRecord::RecordList->at(i)->iSize;
-                qDebug() << "IsDir: " << cRecord::RecordList->at(i)->IsDir;
-                qDebug() << "--------------------";
-            }
-            else
-            {
-                qDebug() << "Empty element:" << i;
-            }
+            qDebug() << "Name: " << cRecord::RecordList->at(i)->qsName;
+            qDebug() << "Path: " << cRecord::RecordList->at(i)->qsPath;
+            qDebug() << "Sise: " << cRecord::RecordList->at(i)->iSize;
+            qDebug() << "IsDir: " << cRecord::RecordList->at(i)->IsDir;
+            qDebug() << "--------------------";
         }
     }
     else
