@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include <QDebug> // Для вывода в консоль
 #include <QDirIterator>
+#include <QVector>
 
 #include "crecord.h"
 
@@ -33,49 +34,112 @@ int main(int argc, char *argv[])
 
     //Список файлов и каталогов.
     QFileInfoList fileList = directory.entryInfoList();
+    size_t FileListSize = fileList.count();
+    qDebug() << "FileList size:" << FileListSize;
 
 
     // Чтение информации о каждом файле и каталоге
     qDebug() << "Target directory: " << directoryPath;
 
+    //cRecord * Record = new cRecord();
+    std::unique_ptr<cRecord> RecordPtr(new cRecord());
+    cRecord * Record = RecordPtr.get();
+
+    std::unique_ptr<cRecord> RecordPtr1(new cRecord());
+    cRecord * Record1 = RecordPtr1.get();
+
+    //std::unique_ptr<cRecord[]> RecordPtrX(new cRecord[5]);
+    //cRecord * RecordX = RecordPtrX.get();
+
+    std::unique_ptr<QVector<cRecord*> >  RecordListPtr(new QVector<cRecord*>);
+    QVector<cRecord*> * qvRecordList = RecordListPtr.get();
+
+    qvRecordList->clear();
+
+    Record->qsName = "One";
+    Record->qsPath = "Default";
+    Record->iSize = 5;
+    Record->IsDir = false;
+
+
+    Record1->qsName = "Two";
+    Record1->qsPath = "Default";
+    Record1->iSize = 6;
+    Record1->IsDir = false;
+
+
+    //auto RecordsPtr {std::make_unique<cRecord*[]>(FileListSize)};
+    std::unique_ptr<cRecord*[]> RecordsPtr(new cRecord*[FileListSize]);
+
+    cRecord * Records[] = {
+        Record,
+        Record1
+    };
+//    cRecord * Records[] = RecordsPtr.get();
+
+//    qvRecordList->push_back(Record);
+//    qvRecordList->push_back(Record1);
+    qvRecordList->push_back(Records[0]);
+    qvRecordList->push_back(Records[1]);
+
+/*
     for (const QFileInfo &fileInfo : fileList)
     {
-        cRecord * Record = new cRecord();
-
         Record->qsName = fileInfo.fileName();
         Record->qsPath  = fileInfo.filePath();
         Record->iSize = fileInfo.size();
         Record->IsDir = fileInfo.isDir();
 
-        cRecord::RecordList->append(Record);
+//        cRecord::RecordList->append(Record);
+        qvRecordList->push_back(Record);
 
-        delete Record;
+//        int pointer = qvRecordList->count() - 1;
+//        qDebug() << ">>>Pointer=" << pointer;
+//        qDebug() << "Name: " << qvRecordList->at(pointer)->qsName;
+//        qDebug() << "Path: " << qvRecordList->at(pointer)->qsPath;
+//        qDebug() << "Size: " << qvRecordList->at(pointer)->iSize << " bytes";
+//        qDebug() << "Is directory: " << qvRecordList->at(pointer)->IsDir;
 
-//        qDebug() << "Имя: " << name;
-//        qDebug() << "Путь: " << path;
-//        qDebug() << "Размер: " << size << " байт";
-//        qDebug() << "Это каталог: " << isDir;
+//        int pointer = cRecord::RecordList->count() - 1;
+//        qDebug() << ">>>Pointer=" << pointer;
+//        qDebug() << "Name: " << cRecord::RecordList->at(pointer)->qsName;
+//        qDebug() << "Path: " << cRecord::RecordList->at(pointer)->qsPath;
+//        qDebug() << "Size: " << cRecord::RecordList->at(pointer)->iSize << " bytes";
+//        qDebug() << "Is directory: " << cRecord::RecordList->at(pointer)->IsDir;
+
+//        qDebug() << "Name: " << Record->qsName;
+//        qDebug() << "Path: " << Record->qsPath;
+//        qDebug() << "Size: " << Record->iSize << " bytes";
+//        qDebug() << "Is directory: " << Record->IsDir;
 //        qDebug() << "--------------------";
-    }
 
-    qDebug() << "RecordList records number: " << cRecord::RecordList->length();
+    }
+*/
+    //delete Record;
+
+    //qDebug() << "RecordList records number: " << cRecord::RecordList->length();
+    qDebug() << "RecordList records number: " << qvRecordList->count();
 
 //    cRecord::showList();
-    for(int i = 0; i < cRecord::RecordList->count(); i++)
+
+    for(auto it = qvRecordList->cbegin(); it != qvRecordList->cend(); ++it)
     {
-        if(sizeof(cRecord::RecordList->at(i)) > 0)
+        if(sizeof(*it) > 0)
         {
-//            qDebug() << "Name: " << cRecord::RecordList->at(i)->qsName;
-//            qDebug() << "Path: " << cRecord::RecordList->at(i)->qsPath;
-//            qDebug() << "Sise: " << cRecord::RecordList->at(i)->iSize;
-//            qDebug() << "IsDir: " << cRecord::RecordList->at(i)->IsDir;
+            qDebug() << ">>>recordSize=" << sizeof(*it);
+            auto element = *it;
+            qDebug() << "Name: " << element->qsName;
+            qDebug() << "Path: " << element->qsPath;
+            qDebug() << "Sise: " << element->iSize;
+            qDebug() << "IsDir: " << element->IsDir;
             qDebug() << "--------------------";
         }
         else
         {
-            qDebug() << "Empty element:" << i;
+            qDebug() << "Empty element:";// << record;
         }
     }//End of for(int i = 0; i < cRecord::RecordList->count(); i++)
+
 
     return a.exec();
 
