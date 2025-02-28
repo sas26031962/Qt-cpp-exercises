@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     // Путь к каталогу, который нужно прочитать
-    //QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Путь для Linux
-    QString directoryPath = "C:/WORK/Pictures"; // Путь для Windows
+    QString directoryPath = "/home/andy/Рабочий стол/From Smartfone"; // Путь для Linux
+    //QString directoryPath = "C:/WORK/Pictures"; // Путь для Windows
 
    // QString directoryPath = QCoreApplication::applicationDirPath(); // текущая папка с исполняемым файлом
 
@@ -93,32 +93,18 @@ int main(int argc, char *argv[])
 //        cRecord::RecordList->append(Record);
         qvRecordList->push_back(Record);
 
-//        int pointer = qvRecordList->count() - 1;
-//        qDebug() << ">>>Pointer=" << pointer;
-//        qDebug() << "Name: " << qvRecordList->at(pointer)->qsName;
-//        qDebug() << "Path: " << qvRecordList->at(pointer)->qsPath;
-//        qDebug() << "Size: " << qvRecordList->at(pointer)->iSize << " bytes";
-//        qDebug() << "Is directory: " << qvRecordList->at(pointer)->IsDir;
+        delete Record;
 
-//        int pointer = cRecord::RecordList->count() - 1;
-//        qDebug() << ">>>Pointer=" << pointer;
-//        qDebug() << "Name: " << cRecord::RecordList->at(pointer)->qsName;
-//        qDebug() << "Path: " << cRecord::RecordList->at(pointer)->qsPath;
-//        qDebug() << "Size: " << cRecord::RecordList->at(pointer)->iSize << " bytes";
-//        qDebug() << "Is directory: " << cRecord::RecordList->at(pointer)->IsDir;
-
-//        qDebug() << "Name: " << Record->qsName;
-//        qDebug() << "Path: " << Record->qsPath;
-//        qDebug() << "Size: " << Record->iSize << " bytes";
-//        qDebug() << "Is directory: " << Record->IsDir;
+//        qDebug() << "Имя: " << name;
+//        qDebug() << "Путь: " << path;
+//        qDebug() << "Размер: " << size << " байт";
+//        qDebug() << "Это каталог: " << isDir;
 //        qDebug() << "--------------------";
-
     }
 */
     //delete Record;
 
-    //qDebug() << "RecordList records number: " << cRecord::RecordList->length();
-    qDebug() << "RecordList records number: " << qvRecordList->count();
+    qDebug() << "RecordList records number: " << cRecord::RecordList->length();
 
 //    cRecord::showList();
 
@@ -139,7 +125,6 @@ int main(int argc, char *argv[])
             qDebug() << "Empty element:";// << record;
         }
     }//End of for(int i = 0; i < cRecord::RecordList->count(); i++)
-
 
     return a.exec();
 
