@@ -22,6 +22,7 @@ public:
 
     //Методы
     static void showList();
+    void show();
 
 signals:
 

@@ -35,39 +35,46 @@ int main(int argc, char *argv[]) {
     QFileInfoList fileList = directory.entryInfoList();
 
     // Перебор списка и выведение информации о каждом файле и каталоге.
-    qDebug() << "Содержимое каталога: " << directoryPath;
+    qDebug() << "Content of dir: " << directoryPath;
 
     std::unique_ptr<cRecord> RecordPtr(new cRecord());
     cRecord * Record = RecordPtr.get();
+
+    cRecord::RecordList->clear();
+
+    //---Запись данных---
     for (const QFileInfo &fileInfo : fileList)
     {
         QString name = fileInfo.fileName();
-        qDebug() << "Name: " << name << " Size=" << sizeof (name);
-
         QString path = fileInfo.filePath();
-        qDebug() << "Path: " << path << " Size=" << sizeof (path);
-
         size_t size = fileInfo.size();
-        qDebug() << "Size: " << size << " Size=" << sizeof (size);
-
         bool isDir = fileInfo.isDir();
-        qDebug() << "IsDir: " << isDir << " Size=" << sizeof (isDir);
-
-        qDebug() << "=====================";
 
         Record->qsName  = name;
         Record->qsPath = path;
         Record->iSize  = size;
         Record->IsDir = isDir;
 
-        qDebug() << "Name: " << Record->qsName << " Size=" << sizeof (Record->qsName);
-        qDebug() << "Path: " << Record->qsPath << " Size=" << sizeof (Record->qsPath);
-        qDebug() << "Size: " << Record->iSize << " Size=" << sizeof (Record->iSize);
-        qDebug() << "Is Directory: " << Record->IsDir << " Size=" << sizeof (Record->IsDir);
-        qDebug() << ">>Record size=" << sizeof (Record);
-        qDebug() << "--------------------";
+        Record->show();
+
+        cRecord::RecordList->append(Record);
+
     }
 
+    //---Чтение данных---
+
+    qDebug() << "====================";
+
+    int RecordListCount = cRecord::RecordList->count();
+    qDebug() << "RecordList count=" << RecordListCount;
+
+    for(int i = 0; i < RecordListCount; i++)
+     {
+        cRecord::RecordList->at(i)->show();
+        qDebug() << "Index=" << i;
+    }
+
+    //---Освобождение ресурсов---
     RecordPtr.reset();
 
     return a.exec();

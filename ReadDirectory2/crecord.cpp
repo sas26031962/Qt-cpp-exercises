@@ -33,3 +33,13 @@ void cRecord::showList()
         qDebug() << "List is empty";
     }
 }
+
+void cRecord::show()
+{
+    qDebug() << "Name: " << qsName;
+    qDebug() << "Path: " << qsPath;
+    qDebug() << "Size: " << iSize;
+    qDebug() << "Is Directory: " << IsDir;
+    qDebug() << ">>Record size=" << sizeof (this);
+    qDebug() << "--------------------";
+}
